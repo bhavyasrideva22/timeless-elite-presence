@@ -11,7 +11,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <Link to="/" className="text-lg font-playfair font-medium tracking-tight">
-              J.SMITH
+              K.KUMAR
             </Link>
           </div>
           
@@ -32,7 +32,7 @@ const Footer = () => {
         </div>
         
         <div className="mt-8 pt-8 border-t border-gray-200 text-center md:text-left text-xs text-gray-500">
-          <p>© {currentYear} J. Smith. All rights reserved.</p>
+          <p>© {currentYear} Krishna Kumar. All rights reserved.</p>
         </div>
       </div>
     </footer>

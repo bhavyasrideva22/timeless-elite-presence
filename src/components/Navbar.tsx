@@ -24,7 +24,7 @@ const Navbar = () => {
     <nav className="fixed w-full bg-white z-50 border-b border-gray-200 py-4 px-4 md:px-8">
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/" className="text-xl md:text-2xl font-playfair font-medium tracking-tight">
-          J.SMITH
+          K.KUMAR
         </Link>
         
         <div className="hidden md:flex space-x-8">
