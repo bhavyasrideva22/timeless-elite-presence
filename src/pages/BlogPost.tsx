@@ -1,668 +1,532 @@
 
-import React from "react";
-import { Link, useParams, Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-
-// This content would typically come from a CMS or database
-const blogPosts = {
-  "strategic-rest": {
-    title: "Strategic Rest: Why High-Achievers Need to Master Recovery",
-    date: "April 24, 2025",
-    content: `
-      <p>In our achievement-oriented culture, rest is often viewed as a necessary evil—something we do begrudgingly when our bodies and minds simply can't continue. The narrative around productivity tends to glorify grinding, hustle, and pushing through limits. But what if this approach is fundamentally flawed?</p>
-      
-      <h2>The Science of Strategic Recovery</h2>
-      
-      <p>Recent neuroscience research reveals something counterintuitive: our most productive thinking often happens during periods of apparent rest. When we step away from focused work, our brain's default mode network activates, allowing for crucial processes like:</p>
-      
-      <ul>
-        <li>Integration of new information with existing knowledge</li>
-        <li>Creative problem-solving through novel connections</li>
-        <li>Strengthening of neural pathways developed during focused learning</li>
-        <li>Processing of emotional experiences</li>
-      </ul>
-      
-      <p>In essence, without strategic rest periods, we limit our cognitive capacity and creative potential. Our brains, like our muscles, require recovery to grow stronger.</p>
-      
-      <h2>The Recovery Paradox</h2>
-      
-      <p>The most successful performers across domains—from elite athletes to innovative executives—don't achieve their results through continuous exertion. Instead, they excel at orchestrating intense effort with deliberate recovery cycles. This creates a compounding effect where each period of engagement becomes more effective than the last.</p>
-      
-      <p>Consider Olympic athletes: their training schedules are meticulously designed to include not just intensive training but also purposeful recovery. This isn't laziness; it's strategic. Without recovery, physical adaptations don't occur, and performance plateaus or declines.</p>
-      
-      <p>The same principle applies to cognitive performance. Knowledge workers who implement strategic rest—through techniques like meditation, nature exposure, and proper sleep hygiene—demonstrate measurable advantages in creative output, decision quality, and long-term sustainability.</p>
-      
-      <h2>Implementing Strategic Rest</h2>
-      
-      <p>Moving from theory to practice, how can ambitious professionals integrate strategic rest into their lives? I recommend a multi-layered approach:</p>
-      
-      <h3>1. Daily Recovery Rituals</h3>
-      <p>Incorporate small but meaningful recovery practices throughout your workday:</p>
-      <ul>
-        <li>90-minute focus blocks followed by 15-20 minute complete breaks (no digital devices)</li>
-        <li>Midday renewal practices like walking meetings or mindfulness sessions</li>
-        <li>Evening shutdown rituals that create psychological distance from work</li>
-      </ul>
-      
-      <h3>2. Weekly Detachment</h3>
-      <p>Designate at least one 24-hour period per week for complete detachment from professional demands. During this time:</p>
-      <ul>
-        <li>Engage in activities unrelated to your professional identity</li>
-        <li>Minimize digital consumption, especially work-related communications</li>
-        <li>Allow yourself to be fully present with loved ones or personal pursuits</li>
-      </ul>
-      
-      <h3>3. Seasonal Rejuvenation</h3>
-      <p>Plan quarterly periods of deeper renewal—ranging from 3-7 days—where you step away from routine responsibilities to restore perspective and creative capacity. These intervals allow for:</p>
-      <ul>
-        <li>Higher-order thinking about career direction and priorities</li>
-        <li>Processing accumulated experiences and extracting insights</li>
-        <li>Reconnecting with core values and personal vision</li>
-      </ul>
-      
-      <h2>The Courage to Rest</h2>
-      
-      <p>In a culture that celebrates constant activity, choosing to prioritize recovery takes courage. It requires rejecting the false binary that rest and productivity are opposed. In truth, they are complementary forces—each enhancing the other when properly balanced.</p>
-      
-      <p>The most sustainable path to exceptional achievement isn't found through relentless striving but through the rhythmic alternation between focused effort and strategic recovery. By mastering this cadence, you unlock not just greater productivity but also deeper fulfillment and creative insight.</p>
-      
-      <p>Are you ready to view rest not as a necessary evil but as a strategic advantage?</p>
-    `,
-    excerpt: "The counterintuitive approach to productivity that leverages rest as a strategic advantage rather than a necessary evil. Learn the science behind cognitive recovery and practical frameworks for implementing strategic rest cycles."
-  },
-  "decision-frameworks": {
-    title: "Decision Frameworks for Overwhelming Complexity",
-    date: "April 12, 2025",
-    content: `
-      <p>In today's hyperconnected world, we face an unprecedented volume of decisions—each with cascading implications and incomplete information. For ambitious professionals, this decision density can lead to analysis paralysis, diminished confidence, and cognitive fatigue.</p>
-      
-      <p>The challenge isn't just making good decisions; it's making them efficiently while preserving mental bandwidth for what truly matters. This article presents practical frameworks for navigating complexity without becoming overwhelmed by it.</p>
-      
-      <h2>The Decision Burden</h2>
-      
-      <p>Research in cognitive psychology reveals that decision-making draws from a limited daily reserve. Each choice—from the trivial to the significant—depletes this resource, leading to what psychologists call "decision fatigue." This explains why even brilliant minds make poor choices after extended periods of decision-making.</p>
-      
-      <p>For leaders and ambitious professionals, the stakes are particularly high. Your decisions shape not just your outcomes but often the trajectory of teams, organizations, and communities. Yet the traditional approaches to decision-making—endless analysis, gut instinct, or deferring to consensus—often fall short when facing genuine complexity.</p>
-      
-      <h2>Framework #1: The Decision Calibration Matrix</h2>
-      
-      <p>Not all decisions deserve equal mental resources. The Decision Calibration Matrix helps match your approach to the nature of the decision:</p>
-
-      <h3>Quadrant 1: High Impact, Reversible</h3>
-      <p><strong>Strategy: Bold testing with safety mechanisms</strong></p>
-      <p>These decisions warrant action despite uncertainty. Move quickly but establish clear monitoring systems and predefined trigger points for course correction. Example: Launching a new product feature with the technical capacity to roll back if needed.</p>
-      
-      <h3>Quadrant 2: High Impact, Irreversible</h3>
-      <p><strong>Strategy: Deliberate investigation with structural safeguards</strong></p>
-      <p>These decisions deserve significant resources. Implement structured approaches like pre-mortems, red teams, and scenario planning. Create decision records documenting assumptions and expected outcomes. Example: Major organizational restructuring or significant capital investments.</p>
-      
-      <h3>Quadrant 3: Low Impact, Reversible</h3>
-      <p><strong>Strategy: Rapid delegation or systematic elimination</strong></p>
-      <p>These decisions should be delegated, automated, or eliminated entirely. Create standard operating procedures that remove the need for case-by-case consideration. Example: Recurring operational decisions that can be guided by clear principles.</p>
-      
-      <h3>Quadrant 4: Low Impact, Irreversible</h3>
-      <p><strong>Strategy: Minimal viable analysis</strong></p>
-      <p>These decisions require just enough consideration to avoid overlooking crucial factors. Use simplified checklists and limited deliberation time. Example: Minor policy decisions that, once established, create precedent but don't significantly impact outcomes.</p>
-      
-      <h2>Framework #2: The Confidence Threshold Method</h2>
-      
-      <p>When facing ambiguity, determining "how sure is sure enough" becomes critical. The Confidence Threshold Method addresses this by:</p>
-      
-      <ol>
-        <li><strong>Defining the minimum viable confidence level</strong> required based on risk profile and opportunity cost (typically 40-70%)</li>
-        <li><strong>Listing key assumptions</strong> and assigning confidence levels to each</li>
-        <li><strong>Identifying which specific information</strong> would meaningfully increase confidence in critical assumptions</li>
-        <li><strong>Setting clear time boxes</strong> for information gathering activities</li>
-        <li><strong>Committing to decision timelines</strong> in advance to prevent analysis paralysis</li>
-      </ol>
-      
-      <p>This approach prevents both premature decisions and endless deliberation by creating a structured path to "good enough" confidence.</p>
-      
-      <h2>Framework #3: The Mental Model Portfolio</h2>
-      
-      <p>Complex decisions benefit from examining situations through multiple lenses. Develop a personal portfolio of mental models drawn from diverse disciplines:</p>
-      
-      <ul>
-        <li><strong>Second-order thinking:</strong> Looking beyond immediate effects to consequences-of-consequences</li>
-        <li><strong>Opportunity costs:</strong> Recognizing that each "yes" implies multiple implicit "nos"</li>
-        <li><strong>Base rates:</strong> Anchoring in relevant statistical probabilities before adjusting for specifics</li>
-        <li><strong>Inversion:</strong> Approaching problems backward by asking what would cause failure</li>
-        <li><strong>Expected value:</strong> Weighting potential outcomes by their probability</li>
-      </ul>
-      
-      <p>The power comes not from any single model but from the integration of multiple perspectives, creating a more complete understanding of complex situations.</p>
-      
-      <h2>Implementation: Building Your Decision System</h2>
-      
-      <p>Translating these frameworks into practical application requires developing personalized systems that fit your context:</p>
-      
-      <ol>
-        <li><strong>Decision journal:</strong> Document significant decisions, including assumptions, confidence levels, and expected outcomes</li>
-        <li><strong>Review cadence:</strong> Schedule regular reviews of past decisions to refine your judgment</li>
-        <li><strong>Decision criteria:</strong> Develop explicit, written criteria for recurring decision types</li>
-        <li><strong>External perspectives:</strong> Establish a network of trusted advisors with diverse expertise</li>
-        <li><strong>Reflection practices:</strong> Build habits that create space for integrative thinking</li>
-      </ol>
-      
-      <h2>The Road to Decision Clarity</h2>
-      
-      <p>The objective isn't perfect decisions—such a standard would paralyze any thoughtful person. Instead, aim for clarity, confidence, and capacity:</p>
-      
-      <p><strong>Clarity</strong> in understanding the true nature of decisions and their implications</p>
-      <p><strong>Confidence</strong> in your process, even when outcomes remain uncertain</p>
-      <p><strong>Capacity</strong> preserved for the decisions that truly deserve your limited cognitive resources</p>
-      
-      <p>By implementing these frameworks, you'll face complexity not with anxiety but with structured approaches that consistently produce high-quality decisions without overwhelming your mental bandwidth.</p>
-      
-      <p>The mark of wisdom isn't knowing all answers but knowing how to approach questions with appropriate rigor and efficiency.</p>
-    `,
-    excerpt: "How to make clear, confident decisions when facing ambiguity, competing priorities, and information overload. A practical guide to decision frameworks that reduce cognitive burden and improve outcome quality."
-  },
-  "integration-principle": {
-    title: "The Integration Principle: Aligning Professional Excellence and Personal Wellbeing",
-    date: "March 28, 2025",
-    content: `
-      <p>For decades, ambitious professionals have been taught to pursue "work-life balance"—a well-intentioned but fundamentally flawed concept that suggests our professional and personal lives exist in opposition, requiring constant compromise and tradeoffs. This mental model forces us into an endless juggling act where success in one domain seems to require sacrifice in another.</p>
-      
-      <p>What if there's a more sophisticated approach?</p>
-      
-      <h2>Beyond Balance: The Case for Integration</h2>
-      
-      <p>The Integration Principle offers an alternative paradigm: rather than balancing competing domains, we can design systems where professional excellence and personal wellbeing reinforce each other. This approach recognizes that our lives aren't composed of isolated compartments but rather interconnected elements of a single, integrated whole.</p>
-      
-      <p>Consider the evidence:</p>
-      
-      <ul>
-        <li>Research in performance psychology shows that sustainable achievement requires regular renewal</li>
-        <li>Studies of creativity demonstrate that diverse experiences fuel innovative thinking</li>
-        <li>Health science confirms that physical wellbeing directly impacts cognitive function</li>
-        <li>Relationship research reveals that meaningful connections enhance resilience and decision quality</li>
-      </ul>
-      
-      <p>The Integration Principle leverages these connections to create virtuous cycles rather than tradeoffs. It's not about doing everything simultaneously but about designing systems where activities serve multiple purposes and domains strengthen each other over time.</p>
-      
-      <h2>The Five Dimensions of Integration</h2>
-      
-      <h3>1. Energy Integration</h3>
-      
-      <p>Most professionals manage their time meticulously but neglect their energy—the fundamental currency of performance. Energy integration involves designing your life to optimize physical, emotional, mental, and spiritual energy across all domains.</p>
-      
-      <p><strong>Implementation strategies:</strong></p>
-      <ul>
-        <li>Energy-based scheduling: Planning high-stakes work during your peak cognitive hours</li>
-        <li>Recovery rituals: Implementing brief but powerful renewal practices throughout the day</li>
-        <li>Sleep optimization: Treating quality sleep as a performance enhancement strategy</li>
-        <li>Strategic movement: Incorporating physical activity that energizes rather than depletes</li>
-      </ul>
-      
-      <h3>2. Purpose Integration</h3>
-      
-      <p>When your professional work and personal activities align with core values, you experience synchrony rather than conflict. Purpose integration means selecting and shaping roles that express your authentic priorities.</p>
-      
-      <p><strong>Implementation strategies:</strong></p>
-      <ul>
-        <li>Values clarification: Explicitly defining your non-negotiable principles</li>
-        <li>Job crafting: Reshaping existing roles to better align with personal purpose</li>
-        <li>Strategic contribution: Choosing projects and responsibilities that leverage your unique strengths</li>
-        <li>Meaning creation: Finding significance even in routine tasks by connecting them to larger purposes</li>
-      </ul>
-      
-      <h3>3. Attention Integration</h3>
-      
-      <p>Fragmented attention diminishes performance and satisfaction across all life domains. Attention integration involves designing environments and practices that enable full engagement with whatever matters most in each moment.</p>
-      
-      <p><strong>Implementation strategies:</strong></p>
-      <ul>
-        <li>Digital boundaries: Creating clear protocols for technology use</li>
-        <li>Environmental design: Shaping physical spaces that support focused attention</li>
-        <li>Transition rituals: Developing practices that facilitate complete psychological shifting between domains</li>
-        <li>Deep work scheduling: Blocking extended periods for demanding cognitive tasks</li>
-      </ul>
-      
-      <h3>4. Relationship Integration</h3>
-      
-      <p>Our connections with others profoundly influence both professional outcomes and personal fulfillment. Relationship integration means cultivating a network that provides diverse forms of support across multiple life domains.</p>
-      
-      <p><strong>Implementation strategies:</strong></p>
-      <ul>
-        <li>Strategic social mapping: Identifying relationship needs across different life domains</li>
-        <li>Boundary management: Establishing clear expectations with key stakeholders</li>
-        <li>Integration opportunities: Finding appropriate ways to connect important people from different life domains</li>
-        <li>Communication systems: Creating reliable processes for maintaining critical relationships</li>
-      </ul>
-      
-      <h3>5. Growth Integration</h3>
-      
-      <p>Development in one area often transfers to others when approached intentionally. Growth integration involves selecting learning experiences that build transferable capabilities applicable across domains.</p>
-      
-      <p><strong>Implementation strategies:</strong></p>
-      <ul>
-        <li>Cross-domain skill identification: Recognizing capabilities with multiple applications</li>
-        <li>Deliberate practice design: Structuring improvement efforts for maximum transfer</li>
-        <li>Reflection systems: Establishing routines that extract lessons from diverse experiences</li>
-        <li>Learning portfolios: Maintaining varied development activities that complement each other</li>
-      </ul>
-      
-      <h2>From Concept to Reality: Building Your Integration System</h2>
-      
-      <p>The Integration Principle isn't just a philosophical shift—it requires concrete systems and practices. Here's a framework for implementation:</p>
-      
-      <ol>
-        <li><strong>Audit current state:</strong> Assess where fragmentation creates friction in your life</li>
-        <li><strong>Envision integration:</strong> Define what meaningful alignment would look like across domains</li>
-        <li><strong>Identify leverage points:</strong> Determine which changes would create the greatest ripple effects</li>
-        <li><strong>Design experiments:</strong> Create small tests of integrated approaches</li>
-        <li><strong>Build supporting structures:</strong> Establish routines and environments that reinforce integration</li>
-        <li><strong>Regular realignment:</strong> Schedule periodic reviews to address emerging fragmentation</li>
-      </ol>
-      
-      <h2>The Integration Advantage</h2>
-      
-      <p>Professionals who master integration experience distinct advantages:</p>
-      
-      <ul>
-        <li><strong>Sustainability:</strong> Their performance doesn't come at the cost of burnout</li>
-        <li><strong>Adaptability:</strong> They navigate transitions more fluidly</li>
-        <li><strong>Authenticity:</strong> Their work expressions align with their core identity</li>
-        <li><strong>Creativity:</strong> They benefit from cross-pollination between diverse experiences</li>
-        <li><strong>Presence:</strong> They engage more fully in whatever they're doing</li>
-      </ul>
-      
-      <p>The path to exceptional achievement isn't through compartmentalization and sacrifice but through thoughtful integration and alignment. By adopting this principle, you move beyond the exhausting balancing act toward a more coherent, energizing, and fulfilling approach to life and work.</p>
-    `,
-    excerpt: "Moving beyond work-life balance to a more sophisticated approach: strategic integration. How top performers design systems that allow simultaneous achievement across multiple life domains."
-  },
-  "project-turnaround": {
-    title: "Project Turnaround: The Mental Models That Rescue Failing Initiatives",
-    date: "March 15, 2025",
-    content: `
-      <p>Almost every seasoned professional has experienced it: the sinking realization that a critical project is veering off track. Despite best intentions and careful planning, initiatives can falter under the weight of unexpected complications, shifting requirements, team dynamics, or external pressures.</p>
-      
-      <p>Having led dozens of complex project rescues across industries, I've identified consistent patterns in successful turnarounds. This article presents a systematic framework for diagnosing, stabilizing, and ultimately recovering troubled projects—regardless of industry or scope.</p>
-      
-      <h2>The Psychology of Project Recovery</h2>
-      
-      <p>Before addressing tactical approaches, we must recognize the psychological barriers that complicate turnaround efforts:</p>
-      
-      <ul>
-        <li><strong>Sunk cost fallacy:</strong> The tendency to continue a failing approach because of previous investment</li>
-        <li><strong>Optimism bias:</strong> Unrealistic beliefs that problems will resolve themselves</li>
-        <li><strong>Blame orientation:</strong> Energy diverted to finding fault rather than solutions</li>
-        <li><strong>Analysis paralysis:</strong> Overthinking problems while delaying decisive action</li>
-        <li><strong>Communication breakdown:</strong> Reduced transparency when it's most needed</li>
-      </ul>
-      
-      <p>Successful recovery begins with acknowledging these tendencies and establishing counterbalancing practices. This means creating psychological safety for honest assessment while maintaining the decisiveness required for recovery.</p>
-      
-      <h2>Phase 1: Diagnosis – The Situation Analysis Framework</h2>
-      
-      <p>Effective recovery requires accurate diagnosis before action. The Situation Analysis Framework provides structured evaluation across five critical dimensions:</p>
-      
-      <h3>1. Objective Clarity</h3>
-      <p>First, assess whether project difficulties stem from misalignment on fundamental goals:</p>
-      <ul>
-        <li>Are success criteria explicitly defined and universally understood?</li>
-        <li>Do all stakeholders share the same priorities among competing objectives?</li>
-        <li>Has the project's purpose remained constant, or have requirements shifted?</li>
-      </ul>
-      
-      <h3>2. Process Integrity</h3>
-      <p>Next, evaluate the project's operational mechanics:</p>
-      <ul>
-        <li>Are workflows clearly defined and appropriately sequenced?</li>
-        <li>Do handoffs between team members or departments function smoothly?</li>
-        <li>Are decision-making processes clear and efficient?</li>
-        <li>Do monitoring systems provide timely visibility into emerging issues?</li>
-      </ul>
-      
-      <h3>3. Resource Adequacy</h3>
-      <p>Determine whether the project has what it needs to succeed:</p>
-      <ul>
-        <li>Are human resources sufficient in both quantity and capability?</li>
-        <li>Is the budget realistic given the project scope?</li>
-        <li>Is the timeline achievable based on historical benchmarks?</li>
-        <li>Do team members have the tools and information required?</li>
-      </ul>
-      
-      <h3>4. Environmental Factors</h3>
-      <p>Consider organizational and external contexts:</p>
-      <ul>
-        <li>Does the project have necessary stakeholder support?</li>
-        <li>Are there competing initiatives creating conflicts or distractions?</li>
-        <li>Have external market or regulatory conditions changed significantly?</li>
-        <li>Does organizational culture enable or hinder project success?</li>
-      </ul>
-      
-      <h3>5. Team Dynamics</h3>
-      <p>Assess the human elements influencing performance:</p>
-      <ul>
-        <li>Is there psychological safety for surfacing issues and proposing solutions?</li>
-        <li>Do communication patterns facilitate effective collaboration?</li>
-        <li>Is accountability clearly established and appropriately distributed?</li>
-        <li>Do team members demonstrate commitment to shared outcomes?</li>
-      </ul>
-      
-      <p>This diagnostic process should be rapid but thorough, typically completed within 1-3 days depending on project complexity. The goal is identifying primary failure points rather than documenting every issue.</p>
-      
-      <h2>Phase 2: Stabilization – The Control Framework</h2>
-      
-      <p>With clear diagnosis established, the immediate priority becomes stabilization—preventing further deterioration while creating conditions for recovery. The Control Framework provides structure for this phase:</p>
-      
-      <h3>1. Critical Path Protection</h3>
-      <p>Identify and shield the minimum viable activities required to maintain project viability:</p>
-      <ul>
-        <li>Isolate essential workstreams that must continue without interruption</li>
-        <li>Implement temporary workarounds for broken processes on the critical path</li>
-        <li>Redirect resources from non-essential activities to shore up critical functions</li>
-      </ul>
-      
-      <h3>2. Expectation Management</h3>
-      <p>Reset stakeholder expectations based on realistic assessment:</p>
-      <ul>
-        <li>Communicate transparently about project status and challenges</li>
-        <li>Negotiate interim deliverables or adjusted timelines where necessary</li>
-        <li>Establish revised reporting cadences to rebuild confidence</li>
-      </ul>
-      
-      <h3>3. Rapid Intervention Points</h3>
-      <p>Identify and address immediate "bleeding" issues:</p>
-      <ul>
-        <li>Implement short-term fixes for the most acute problems</li>
-        <li>Create containment strategies for issues that cannot be immediately resolved</li>
-        <li>Establish clear thresholds for escalation of new or worsening issues</li>
-      </ul>
-      
-      <h3>4. Team Recalibration</h3>
-      <p>Adjust team composition and functioning to match recovery needs:</p>
-      <ul>
-        <li>Clarify decision rights and authority during the stabilization phase</li>
-        <li>Realign team members to leverage strengths and address capability gaps</li>
-        <li>Implement daily coordination mechanisms focused on emerging issues</li>
-      </ul>
-      
-      <h2>Phase 3: Recovery – The Reconstruction Framework</h2>
-      
-      <p>With stabilization achieved, recovery shifts focus to addressing root causes and rebuilding sustainable performance. The Reconstruction Framework guides this transition:</p>
-      
-      <h3>1. Reset Foundation</h3>
-      <p>Address fundamental misalignments identified during diagnosis:</p>
-      <ul>
-        <li>Renegotiate and document clear objectives and success criteria</li>
-        <li>Rebuild core processes with appropriate controls and visibility</li>
-        <li>Reestablish governance mechanisms that provide appropriate oversight</li>
-      </ul>
-      
-      <h3>2. Phased Recommitment</h3>
-      <p>Break the remaining work into manageable segments with clear evaluation points:</p>
-      <ul>
-        <li>Establish 2-4 week delivery cycles with defined outcomes</li>
-        <li>Create stage gates for evaluating progress and making continuation decisions</li>
-        <li>Implement rolling planning horizons that adapt to emerging information</li>
-      </ul>
-      
-      <h3>3. Capability Building</h3>
-      <p>Strengthen the team's ability to execute effectively:</p>
-      <ul>
-        <li>Address skill gaps through targeted development or strategic additions</li>
-        <li>Implement knowledge sharing mechanisms to reduce bottlenecks</li>
-        <li>Create standard tools and templates that enhance consistency</li>
-      </ul>
-      
-      <h3>4. Momentum Management</h3>
-      <p>Build psychological momentum through visible progress:</p>
-      <ul>
-        <li>Prioritize quick wins that demonstrate forward movement</li>
-        <li>Celebrate meaningful milestones to reinforce confidence</li>
-        <li>Implement visual management tools that make progress tangible</li>
-      </ul>
-      
-      <h2>The Recovery Leader's Mindset</h2>
-      
-      <p>Beyond frameworks and processes, successful project turnarounds require specific leadership orientations:</p>
-      
-      <ul>
-        <li><strong>Radical objectivity:</strong> Seeing reality clearly without filter or bias</li>
-        <li><strong>Pragmatic optimism:</strong> Maintaining confidence while acknowledging challenges</li>
-        <li><strong>Decisive patience:</strong> Acting quickly when needed while allowing recovery to unfold</li>
-        <li><strong>Focused flexibility:</strong> Holding firm on objectives while adapting approaches</li>
-        <li><strong>Constructive dissatisfaction:</strong> Celebrating progress while pushing for better</li>
-      </ul>
-      
-      <h2>Beyond Recovery: Learning for the Future</h2>
-      
-      <p>The ultimate measure of a successful turnaround isn't just salvaging the current project but extracting insights that prevent similar situations in the future. Implement formal retrospectives that:</p>
-      
-      <ul>
-        <li>Document early warning signals that were missed</li>
-        <li>Identify systemic issues that transcend the specific project</li>
-        <li>Capture successful recovery tactics for future application</li>
-        <li>Translate lessons into specific process improvements</li>
-      </ul>
-      
-      <p>By approaching troubled projects with structured frameworks rather than panic or resignation, you transform potential failures into opportunities for organizational learning and professional growth. The methodical approach outlined here has successfully recovered projects ranging from software implementations to organizational transformations, from product launches to infrastructure initiatives.</p>
-      
-      <p>The ability to turn around failing projects isn't just a valuable skill—it's increasingly a requirement for leaders navigating today's complex and rapidly changing environments.</p>
-    `,
-    excerpt: "A comprehensive framework for diagnosing, stabilizing, and recovering troubled projects. Practical approaches based on experience with dozens of complex project rescues across industries."
-  },
-  "efficiency-paradox": {
-    title: "The Efficiency Paradox: When Optimization Creates Underperformance",
-    date: "February 27, 2025",
-    content: `
-      <p>Efficiency has become a defining virtue of modern organizations. We optimize workflows, eliminate waste, and streamline processes—all in pursuit of doing more with less. But what if our relentless focus on efficiency is actually undermining the very performance we seek to enhance?</p>
-      
-      <p>This counterintuitive insight—the Efficiency Paradox—helps explain why so many optimization efforts fail to deliver sustainable results and why some highly efficient organizations ultimately stagnate.</p>
-      
-      <h2>The False Promise of Maximum Efficiency</h2>
-      
-      <p>The conventional wisdom is compelling: identify non-value-adding activities, eliminate them, and performance will improve. This mechanistic view treats organizations like machines where removing friction inherently improves output.</p>
-      
-      <p>But organizations aren't machines—they're complex adaptive systems with interdependencies, feedback loops, and emergent properties. In such systems, what appears inefficient in isolation may serve critical functions in the larger context.</p>
-      
-      <p>Consider these examples of "inefficiencies" that often prove valuable:</p>
-      
-      <ul>
-        <li><strong>Redundancy:</strong> Having multiple ways to accomplish critical functions creates resilience against disruption</li>
-        <li><strong>Slack:</strong> Unallocated time and resources enable adaptation to unexpected opportunities and challenges</li>
-        <li><strong>Exploration:</strong> Pursuing multiple approaches simultaneously increases discovery potential despite apparent inefficiency</li>
-        <li><strong>Relationship building:</strong> "Non-productive" social interactions build trust that enhances collaboration</li>
-        <li><strong>Reflection:</strong> Time spent thinking without immediate output often leads to breakthrough insights</li>
-      </ul>
-      
-      <p>When organizations optimize away these elements in pursuit of efficiency, they often experience initial performance gains followed by fragility, reduced innovation, and eventually declining results.</p>
-      
-      <h2>The Four Efficiency Traps</h2>
-      
-      <h3>Trap #1: Fragility by Design</h3>
-      
-      <p>Organizations optimized for perfect conditions become vulnerable to disruption. By removing all "waste," they eliminate the buffers and adaptive capacity needed to respond to change.</p>
-      
-      <p><strong>Warning signs:</strong></p>
-      <ul>
-        <li>Minor disruptions cascade into major problems</li>
-        <li>Recovery from setbacks takes increasingly longer</li>
-        <li>Teams operate continually in crisis mode</li>
-        <li>Resources are consistently at 100% utilization</li>
-      </ul>
-      
-      <h3>Trap #2: Measurement Myopia</h3>
-      
-      <p>What gets measured gets managed—but not everything valuable can be easily measured. When efficiency metrics dominate, organizations optimize for what's measurable rather than what's important.</p>
-      
-      <p><strong>Warning signs:</strong></p>
-      <ul>
-        <li>Short-term metrics improve while longer-term outcomes suffer</li>
-        <li>People game measurement systems rather than solving real problems</li>
-        <li>Conversations focus more on metrics than meaning</li>
-        <li>Activities with delayed or difficult-to-measure benefits get deprioritized</li>
-      </ul>
-      
-      <h3>Trap #3: Learning Limitation</h3>
-      
-      <p>Efficiency-focused organizations often eliminate the very conditions necessary for learning and innovation. By optimizing for known processes, they reduce capacity for discovering better ones.</p>
-      
-      <p><strong>Warning signs:</strong></p>
-      <ul>
-        <li>Decreasing rate of meaningful innovation</li>
-        <li>Persistent problems without fresh solutions</li>
-        <li>Resistance to ideas that don't immediately demonstrate efficiency</li>
-        <li>Risk aversion and experimentation avoidance</li>
-      </ul>
-      
-      <h3>Trap #4: Cultural Corrosion</h3>
-      
-      <p>When efficiency becomes the primary value, organizations risk developing cultures focused on optimization at the expense of purpose, connection, and meaning.</p>
-      
-      <p><strong>Warning signs:</strong></p>
-      <ul>
-        <li>Declining employee engagement despite productivity focus</li>
-        <li>Atrophying social networks within the organization</li>
-        <li>Decisions that make numerical sense but feel intuitively wrong</li>
-        <li>Increasing difficulty attracting and retaining talent</li>
-      </ul>
-      
-      <h2>Beyond Efficiency: The Effectiveness Imperative</h2>
-      
-      <p>The alternative isn't embracing inefficiency but rather pursuing a more nuanced goal: sustainable effectiveness. This approach recognizes efficiency as one component of performance rather than its ultimate measure.</p>
-      
-      <p>Effectiveness-focused organizations demonstrate several distinctive characteristics:</p>
-      
-      <h3>1. Strategic Slack</h3>
-      
-      <p>Rather than optimizing every resource to maximum utilization, they maintain deliberate capacity buffers:</p>
-      <ul>
-        <li>Time allocation that includes space for emerging priorities (typically 15-20% unallocated capacity)</li>
-        <li>Financial reserves beyond immediate operating needs</li>
-        <li>Talent bench strength that exceeds current requirements</li>
-        <li>Technological flexibility rather than purely optimized systems</li>
-      </ul>
-      
-      <h3>2. Productive Friction</h3>
-      
-      <p>Instead of streamlining all processes to eliminate resistance, they preserve constructive tension:</p>
-      <ul>
-        <li>Designed diversity in teams and decision processes</li>
-        <li>Challenging dialogue norms that surface different perspectives</li>
-        <li>Cross-functional collaboration despite coordination costs</li>
-        <li>Regular questioning of established approaches</li>
-      </ul>
-      
-      <h3>3. Learning Orientation</h3>
-      
-      <p>Beyond optimizing known processes, they systematically invest in discovery:</p>
-      <ul>
-        <li>Structured experimentation with new approaches</li>
-        <li>Protected time for reflection and sense-making</li>
-        <li>Balanced metrics that include learning indicators</li>
-        <li>Psychological safety that encourages productive failure</li>
-      </ul>
-      
-      <h3>4. Adaptive Capacity</h3>
-      
-      <p>Rather than rigid optimization for current conditions, they build flexibility for changing circumstances:</p>
-      <ul>
-        <li>Modular systems that can be reconfigured as needed</li>
-        <li>Cross-training that enables role flexibility</li>
-        <li>Decision processes that adjust to different contexts</li>
-        <li>Regular scenario planning for potential futures</li>
-      </ul>
-      
-      <h2>Implementing the Effectiveness Shift</h2>
-      
-      <p>Moving from efficiency obsession to sustainable effectiveness requires deliberate transitions in multiple domains:</p>
-      
-      <table>
-        <tr>
-          <th>Domain</th>
-          <th>From (Efficiency Focus)</th>
-          <th>To (Effectiveness Focus)</th>
-        </tr>
-        <tr>
-          <td>Resource Planning</td>
-          <td>Maximum utilization</td>
-          <td>Strategic capacity buffers</td>
-        </tr>
-        <tr>
-          <td>Performance Metrics</td>
-          <td>Output optimization</td>
-          <td>Outcome and capability development</td>
-        </tr>
-        <tr>
-          <td>Problem Solving</td>
-          <td>Variance elimination</td>
-          <td>Root cause understanding</td>
-        </tr>
-        <tr>
-          <td>Innovation Approach</td>
-          <td>Process optimization</td>
-          <td>Experimental learning</td>
-        </tr>
-        <tr>
-          <td>Decision Making</td>
-          <td>Streamlined approval</td>
-          <td>Appropriate deliberation</td>
-        </tr>
-        <tr>
-          <td>Meeting Structure</td>
-          <td>Minimum time investment</td>
-          <td>Right conversations</td>
-        </tr>
-      </table>
-      
-      <h2>A Balanced Approach</h2>
-      
-      <p>The path forward isn't abandoning efficiency but placing it within a larger framework of organizational effectiveness. This means:</p>
-      
-      <ol>
-        <li><strong>Classifying activities</strong> based on their need for efficiency vs. adaptive capacity</li>
-        <li><strong>Developing metrics</strong> that balance efficiency indicators with effectiveness measures</li>
-        <li><strong>Creating safe spaces</strong> for activities that appear inefficient but build long-term capability</li>
-        <li><strong>Regularly reassessing</strong> where optimization has gone too far</li>
-      </ol>
-      
-      <p>The organizations that thrive in complex environments are rarely those that eliminate all inefficiency. They are those that understand when efficiency serves their purpose and when other values—resilience, learning, adaptation, and meaning—deserve priority.</p>
-      
-      <p>The efficiency paradox teaches us that sometimes, the most direct path to sustainable performance requires a willingness to embrace apparent inefficiency in service of deeper effectiveness.</p>
-    `,
-    excerpt: "Why relentless efficiency can actually damage long-term performance. How to identify when optimization becomes counterproductive and what to do instead to sustain meaningful productivity."
-  }
-};
 
 const BlogPost = () => {
   const { slug } = useParams();
-  const post = blogPosts[slug as keyof typeof blogPosts];
+  const [post, setPost] = useState<any>(null);
+
+  // Sample blog posts data - this would typically come from an API
+  const blogPosts = {
+    "strategic-rest": {
+      title: "Strategic Rest: Why High-Achievers Need to Master Recovery",
+      content: `
+        <h2>The Counterintuitive Approach to Productivity</h2>
+        <p>The most common misconception among high-achievers is that more work equals better results. Yet research consistently demonstrates that strategic recovery is not merely a concession to biological necessity—it's a performance multiplier.</p>
+        
+        <p>When we examine the habits of elite performers across domains—from athletics to knowledge work—we see a pattern: deliberate work followed by intentional recovery. This oscillation between exertion and renewal creates sustainable performance that outlasts brute-force approaches.</p>
+        
+        <h3>The Science of Cognitive Recovery</h3>
+        <p>Recent neuroscience research reveals that mental fatigue is not simply a subjective experience but a measurable depletion of cognitive resources. When we work without adequate recovery periods, several key performance indicators suffer:</p>
+        
+        <ul>
+          <li>Decision quality degrades by up to 25% after sustained cognitive effort</li>
+          <li>Creative problem-solving capacity diminishes by 30% without adequate breaks</li>
+          <li>Working memory—essential for complex tasks—becomes significantly impaired</li>
+        </ul>
+        
+        <p>What's particularly notable is that we often underestimate our degree of impairment. Much like the intoxicated driver who feels capable of operating a vehicle, the cognitively depleted professional typically overrates their current performance capacity.</p>
+        
+        <h3>The Strategic Rest Framework</h3>
+        <p>Implementing strategic rest isn't about working less—it's about working better. The framework consists of three tiers of recovery:</p>
+        
+        <h4>1. Micro-Recovery (Daily)</h4>
+        <p>Brief, intentional breaks that punctuate focused work sessions. The optimal pattern appears to be 52 minutes of deep work followed by 17 minutes of genuine disconnection from the task.</p>
+        
+        <h4>2. Meso-Recovery (Weekly)</h4>
+        <p>Deeper recovery periods that allow for complete mental shifts away from primary work concerns. This typically involves 24-48 hours of psychological detachment from work challenges.</p>
+        
+        <h4>3. Macro-Recovery (Quarterly/Annually)</h4>
+        <p>Extended periods of renewal that permit perspective-taking and strategic recalibration. These intervals create the space needed for integrative thinking and insight generation.</p>
+        
+        <h3>Implementation for Ambitious Professionals</h3>
+        <p>The primary obstacle to implementing strategic rest isn't understanding—it's cultural and identity-based resistance. Many high-achievers have internalized a belief system that equates constant activity with value and worth.</p>
+        
+        <p>Reframing rest as a strategic performance tool rather than an indulgence is the first step toward implementation. Here are practical approaches:</p>
+        
+        <ol>
+          <li>Schedule recovery with the same rigor as you schedule work commitments</li>
+          <li>Use transition rituals to clearly demarcate work and recovery periods</li>
+          <li>Track recovery quality alongside work output in performance metrics</li>
+          <li>Practice recovery skills with the same dedication as professional skills</li>
+        </ol>
+        
+        <h3>The Competitive Edge</h3>
+        <p>In environments where everyone works hard, the competitive advantage goes to those who recover strategically. As performance demands increase across industries, the ability to sustain cognitive endurance becomes increasingly valuable.</p>
+        
+        <p>The most successful professionals I've worked with don't just outwork their competition—they out-recover them. This allows for sustained performance when others are operating at significant cognitive deficits.</p>
+        
+        <h3>Conclusion: The Rest Paradox</h3>
+        <p>The most counterintuitive finding in performance research is what I call the Rest Paradox: the highest performers typically work less total hours than their slightly lower-performing counterparts. Their secret isn't more time working—it's more strategic allocation of recovery, enabling higher quality work during focused periods.</p>
+        
+        <p>In a culture that glorifies overwork and celebrates the "hustle," embracing strategic rest isn't just smart—it's revolutionary. And for those willing to trust the evidence over cultural norms, it offers a sustainable path to exceptional achievement.</p>
+      `,
+      date: "April 24, 2025"
+    },
+    "decision-frameworks": {
+      title: "Decision Frameworks for Overwhelming Complexity",
+      content: `
+        <h2>Making Clear Decisions in Ambiguous Environments</h2>
+        <p>The modern professional faces unprecedented decision complexity. With information overload, competing priorities, and accelerating timelines, traditional decision-making approaches often break down precisely when we need them most.</p>
+        
+        <p>This article outlines practical frameworks for maintaining decision quality even when facing overwhelming complexity and ambiguity.</p>
+        
+        <h3>The Decision Clarity Crisis</h3>
+        <p>Research reveals that the average professional makes over 35,000 conscious decisions daily—a 350% increase from just two decades ago. Yet our cognitive architecture evolved for far simpler decision environments.</p>
+        
+        <p>The result is what psychologists call "decision fatigue": the deteriorating quality of decisions made after a long session of decision making. This manifests as:</p>
+        
+        <ul>
+          <li>Default to status quo options regardless of merit</li>
+          <li>Impulsive choices that sacrifice long-term value</li>
+          <li>Decision paralysis when facing complex options</li>
+          <li>Excessive delegation of important decisions</li>
+        </ul>
+        
+        <h3>Framework #1: The Regret Minimization Framework</h3>
+        <p>First popularized by Jeff Bezos, this framework inverts conventional decision analysis by focusing not on potential benefits, but on potential regrets.</p>
+        
+        <p>The process works as follows:</p>
+        <ol>
+          <li>Project yourself to age 80, looking back on your life</li>
+          <li>Ask which potential decision would minimize your regret from that perspective</li>
+          <li>Make the choice that your 80-year-old self would endorse</li>
+        </ol>
+        
+        <p>This approach excels for personal, high-stakes decisions with long-term implications, particularly when values alignment is critical. It's less suitable for technical or highly analytical decisions.</p>
+        
+        <h3>Framework #2: The 10/10/10 Analysis</h3>
+        <p>Developed by Suzy Welch, this framework breaks the tyranny of present-moment thinking by explicitly considering multiple time horizons:</p>
+        
+        <ol>
+          <li>How will I feel about this decision 10 minutes from now?</li>
+          <li>How will I feel about this decision 10 months from now?</li>
+          <li>How will I feel about this decision 10 years from now?</li>
+        </ol>
+        
+        <p>This approach excels at neutralizing emotional reactions and creating appropriate decisional weighting based on time impact. It's particularly valuable for decisions where immediate emotions might cloud long-term judgment.</p>
+        
+        <h3>Framework #3: The Decision Stack</h3>
+        <p>For technically complex decisions with multiple variables, the Decision Stack offers a structured approach that reduces cognitive load:</p>
+        
+        <ol>
+          <li>Identify the true decision constraint (time, quality, cost, etc.)</li>
+          <li>Eliminate all options that violate this primary constraint</li>
+          <li>Identify the second most important constraint</li>
+          <li>Eliminate remaining options that violate this constraint</li>
+          <li>Continue until only one or very few options remain</li>
+        </ol>
+        
+        <p>Unlike traditional pros/cons lists that create false equivalence between factors, the Decision Stack forces prioritization and reduces decision fatigue through sequential elimination.</p>
+        
+        <h3>Framework #4: The Premortem</h3>
+        <p>For consequential team decisions, the Premortem technique developed by psychologist Gary Klein offers a powerful debiasing mechanism:</p>
+        
+        <ol>
+          <li>After a tentative decision is reached but before it's finalized, gather the decision team</li>
+          <li>Tell them: "Imagine we're one year in the future. We implemented the decision and it failed spectacularly. What happened?"</li>
+          <li>Have each person independently write their failure narrative</li>
+          <li>Share and discuss the narratives, looking for patterns</li>
+          <li>Use insights to strengthen the decision or choose an alternative</li>
+        </ol>
+        
+        <p>The Premortem counteracts optimism bias, groupthink, and the planning fallacy simultaneously. It creates psychological safety for expressing concerns by reframing them as forward-thinking analysis rather than present-moment criticism.</p>
+        
+        <h3>Implementing Decision Frameworks: The Meta-Decision</h3>
+        <p>The key to using these frameworks effectively is knowing which to apply to a given decision. Three variables should guide this "decision about decisions":</p>
+        
+        <ol>
+          <li><strong>Time sensitivity:</strong> How quickly must this decision be made?</li>
+          <li><strong>Consequence magnitude:</strong> How significant are the potential outcomes?</li>
+          <li><strong>Reversibility:</strong> How easily can this decision be undone?</li>
+        </ol>
+        
+        <p>High-consequence, irreversible decisions warrant more structured approach regardless of time pressure. Conversely, low-consequence, reversible decisions should be made quickly even when time is available—saving cognitive resources for more consequential choices.</p>
+        
+        <h3>Conclusion: Decision Quality as Competitive Advantage</h3>
+        <p>In environments of increasing complexity, decision quality becomes a crucial differentiator. By applying appropriate frameworks to reduce cognitive load and improve decision clarity, professionals can maintain high performance even when facing overwhelming ambiguity.</p>
+        
+        <p>The most successful leaders I've worked with treat decision-making as a skill to be developed rather than an innate ability. They recognize that in a world of mounting complexity, the ability to make clear decisions amid uncertainty may be the most valuable professional asset of all.</p>
+      `,
+      date: "April 12, 2025"
+    },
+    "integration-principle": {
+      title: "The Integration Principle: Aligning Professional Excellence and Personal Wellbeing",
+      content: `
+        <h2>Moving Beyond Work-Life Balance</h2>
+        <p>The concept of "work-life balance" has dominated professional discourse for decades. Yet for many high-achievers, this framework creates a false dichotomy that fails to capture the complex reality of modern professional life.</p>
+        
+        <p>This article introduces an alternative paradigm—the Integration Principle—that offers a more sophisticated approach to simultaneous achievement across multiple life domains.</p>
+        
+        <h3>The Balance Fallacy</h3>
+        <p>The traditional work-life balance model implies several problematic assumptions:</p>
+        
+        <ul>
+          <li>That work and life are separate, opposing forces</li>
+          <li>That equilibrium between domains is the ideal state</li>
+          <li>That time allocation is the primary variable of interest</li>
+          <li>That what works for one person will work for all</li>
+        </ul>
+        
+        <p>For ambitious professionals, these assumptions often create unnecessary tension. The metaphor of "balance" suggests that gains in one domain must come at the expense of another—a zero-sum game that fosters perpetual dissatisfaction.</p>
+        
+        <h3>The Integration Principle: A New Framework</h3>
+        <p>Rather than pursuing balance between competing domains, the Integration Principle focuses on strategic alignment across all areas of life. This approach recognizes that the modern professional doesn't need to compartmentalize their existence, but rather design systems where multiple priorities can be advanced simultaneously.</p>
+        
+        <h4>Core Elements of the Integration Principle:</h4>
+        
+        <ol>
+          <li><strong>Values Alignment:</strong> Identifying core values that transcend specific domains and using them as decision criteria across all areas of life</li>
+          <li><strong>Energy Management:</strong> Replacing time management with energy optimization as the primary resource allocation framework</li>
+          <li><strong>Identity Integration:</strong> Developing a coherent self-concept that accommodates professional ambition alongside other life priorities</li>
+          <li><strong>System Design:</strong> Creating intentional systems and environments that enable progress across multiple domains simultaneously</li>
+        </ol>
+        
+        <h3>Strategic Integration in Practice</h3>
+        
+        <p>The Integration Principle manifests differently based on individual circumstances, but several common patterns emerge among those who implement it successfully:</p>
+        
+        <h4>1. Unified Priority Management</h4>
+        <p>Rather than maintaining separate task systems for work and personal domains, successful integrators develop a unified approach to priority management. This creates cognitive coherence and ensures that all commitments—regardless of domain—receive appropriate attention.</p>
+        
+        <p>Implementation strategies include:</p>
+        <ul>
+          <li>Consolidated task management systems that include all life domains</li>
+          <li>Weekly planning rituals that encompass professional and personal priorities</li>
+          <li>Decision frameworks that explicitly consider impact across multiple life areas</li>
+        </ul>
+        
+        <h4>2. Energy-Based Scheduling</h4>
+        <p>Time is fixed, but energy is variable and renewable. Successful integrators schedule activities based on energy requirements rather than defaulting to conventional time blocks. This approach recognizes that different activities require different types of mental and physical energy.</p>
+        
+        <p>Implementation strategies include:</p>
+        <ul>
+          <li>Energy mapping to identify optimal times for different types of activities</li>
+          <li>Strategic recovery periods built into daily and weekly schedules</li>
+          <li>Activity batching based on cognitive mode rather than subject matter</li>
+        </ul>
+        
+        <h4>3. Environmental Design</h4>
+        <p>Physical and digital environments significantly influence behavior and cognitive state. Successful integrators create intentional environments that support their priorities across domains.</p>
+        
+        <p>Implementation strategies include:</p>
+        <ul>
+          <li>Physical spaces designed for specific cognitive modes rather than specific tasks</li>
+          <li>Technology configurations that support focused work and meaningful connection</li>
+          <li>Environmental triggers that facilitate smooth transitions between modes</li>
+        </ul>
+        
+        <h3>The Integration Audit: Assessing Your Current State</h3>
+        
+        <p>Moving toward greater integration begins with assessing current alignment across key life domains. The following questions provide a starting point:</p>
+        
+        <ol>
+          <li>Do your professional goals and personal values reinforce or contradict each other?</li>
+          <li>How much cognitive residue do you experience when switching between life domains?</li>
+          <li>Does progress in one area of life typically come at the expense of another?</li>
+          <li>Do you maintain separate systems for managing different life domains?</li>
+          <li>How unified is your self-concept across professional and personal contexts?</li>
+        </ol>
+        
+        <p>Lower scores indicate greater fragmentation and opportunity for integration benefits.</p>
+        
+        <h3>The Leadership Imperative</h3>
+        
+        <p>Leaders have both opportunity and responsibility to foster environments conducive to integration. Organizations that support integration typically see improvements in:</p>
+        
+        <ul>
+          <li>Talent retention, particularly among high-potential individuals</li>
+          <li>Employee engagement and discretionary effort</li>
+          <li>Innovation and creative problem-solving</li>
+          <li>Resilience during high-pressure periods</li>
+        </ul>
+        
+        <p>Rather than superficial "wellness programs," effective leadership approaches focus on creating cultures where integration is possible through flexibility, autonomy, and outcome-based performance assessment.</p>
+        
+        <h3>Conclusion: From Balance to Integration</h3>
+        
+        <p>The Integration Principle represents an evolution in thinking about how ambitious professionals can create lives of meaning and impact. By moving beyond the limited framework of "balance" toward strategic integration, it becomes possible to advance multiple priorities without the perpetual sense of sacrifice that often accompanies traditional approaches.</p>
+        
+        <p>The most successful professionals I've worked with don't compartmentalize their existence—they integrate it. Through intentional design and strategic alignment, they create lives where professional excellence and personal fulfillment aren't competing priorities, but complementary outcomes of the same underlying system.</p>
+      `,
+      date: "March 28, 2025"
+    },
+    "project-turnaround": {
+      title: "Project Turnaround: The Mental Models That Rescue Failing Initiatives",
+      content: `
+        <h2>A Framework for Recovering Troubled Projects</h2>
+        <p>Even the most experienced organizations encounter projects that veer off track. When timelines slip, scope expands, stakeholders lose confidence, and team morale deteriorates, conventional project management approaches often prove insufficient.</p>
+        
+        <p>This article outlines a comprehensive framework for diagnosing, stabilizing, and recovering troubled projects based on experience with dozens of complex rescue scenarios across industries.</p>
+        
+        <h3>The Anatomy of Project Failure</h3>
+        
+        <p>Before addressing solutions, we must understand the typical patterns that lead to project distress. While surface symptoms vary, underlying causes typically fall into predictable categories:</p>
+        
+        <h4>Primary Failure Patterns:</h4>
+        <ol>
+          <li><strong>Expectation Misalignment:</strong> Disconnects between stakeholder expectations and project realities</li>
+          <li><strong>Capability Gaps:</strong> Insufficient skills, resources, or tools for project requirements</li>
+          <li><strong>Process Breakdowns:</strong> Inadequate workflows, communication channels, or decision protocols</li>
+          <li><strong>Environmental Volatility:</strong> External changes that invalidate project assumptions</li>
+          <li><strong>Cultural Misalignment:</strong> Team dynamics or organizational culture that undermines execution</li>
+        </ol>
+        
+        <p>Importantly, most troubled projects involve multiple interacting factors rather than a single root cause. This complexity necessitates a systematic recovery approach.</p>
+        
+        <h3>The Project Recovery Framework</h3>
+        
+        <p>Successful project turnarounds follow a consistent sequence of interventions. While the specific tactics may vary based on context, the overall framework remains consistent:</p>
+        
+        <h4>Phase 1: Diagnostic Immersion</h4>
+        <p>Before attempting solutions, rescuers must develop a comprehensive understanding of the current state. This includes:</p>
+        
+        <ul>
+          <li><strong>Stakeholder Interviews:</strong> Structured conversations with all key players to identify perception gaps and unspoken expectations</li>
+          <li><strong>Artifact Analysis:</strong> Review of project documentation, communications, and deliverables to identify inconsistencies and turning points</li>
+          <li><strong>Process Observation:</strong> Direct observation of team dynamics, workflows, and decision-making patterns</li>
+          <li><strong>Metrics Review:</strong> Analysis of quantitative indicators including velocity, quality metrics, and resource utilization</li>
+        </ul>
+        
+        <p>The diagnostic phase typically requires 3-5 days of dedicated focus and should result in a clear problem taxonomy that distinguishes symptoms from underlying causes.</p>
+        
+        <h4>Phase 2: Stabilization</h4>
+        <p>With diagnostic clarity established, the immediate priority becomes stabilizing the project to prevent further deterioration. Key stabilization tactics include:</p>
+        
+        <ul>
+          <li><strong>Expectation Reset:</strong> Transparent communication with stakeholders about current realities and revised timelines</li>
+          <li><strong>Scope Containment:</strong> Implementation of strict change control processes to prevent further scope expansion</li>
+          <li><strong>Team Protection:</strong> Creating psychological safety for the project team to enable honest reporting and problem-solving</li>
+          <li><strong>Quick Wins:</strong> Identification and completion of high-visibility, low-complexity deliverables to restore confidence</li>
+          <li><strong>Process Triage:</strong> Temporary simplification of processes to focus on critical path activities</li>
+        </ul>
+        
+        <p>The stabilization phase typically spans 1-2 weeks and should result in a temporary equilibrium where further deterioration has ceased and stakeholders have realistic expectations.</p>
+        
+        <h4>Phase 3: Structural Redesign</h4>
+        <p>With the immediate crisis contained, focus shifts to addressing underlying structural issues. This phase includes:</p>
+        
+        <ul>
+          <li><strong>Team Reconfiguration:</strong> Alignment of team composition and roles with project requirements</li>
+          <li><strong>Process Reengineering:</strong> Development of fit-for-purpose workflows, governance, and communication protocols</li>
+          <li><strong>Capability Development:</strong> Targeted training, coaching, or resource acquisition to address capability gaps</li>
+          <li><strong>Stakeholder Realignment:</strong> Rebuilding of stakeholder relationships based on transparency and realistic commitments</li>
+          <li><strong>Adaptive Planning:</strong> Implementation of planning approaches that accommodate uncertainty and environmental change</li>
+        </ul>
+        
+        <p>The structural redesign phase typically requires 2-4 weeks of focused effort and should result in sustainable improvements to project fundamentals.</p>
+        
+        <h4>Phase 4: Accelerated Recovery</h4>
+        <p>With foundational issues addressed, the final phase focuses on rebuilding momentum and recovering lost time where possible. Key acceleration strategies include:</p>
+        
+        <ul>
+          <li><strong>Parallel Processing:</strong> Identification of work streams that can progress simultaneously with appropriate coordination</li>
+          <li><strong>Resource Optimization:</strong> Strategic application of additional resources to specific bottlenecks</li>
+          <li><strong>Decision Streamlining:</strong> Implementation of rapid decision protocols for non-critical path items</li>
+          <li><strong>Outcome Prioritization:</strong> Ruthless focus on high-impact deliverables with deferral of nice-to-have elements</li>
+          <li><strong>Celebration Rituals:</strong> Systematic recognition of progress milestones to reinforce momentum</li>
+        </ul>
+        
+        <h3>The Recovery Leader Mindset</h3>
+        
+        <p>Beyond specific methodologies, successful project recovery requires distinct leadership capabilities. The most effective recovery leaders demonstrate:</p>
+        
+        <ol>
+          <li><strong>Diagnostic Objectivity:</strong> The ability to assess situations without blame or defensiveness</li>
+          <li><strong>Reality Candor:</strong> Willingness to communicate difficult truths while maintaining constructive relationships</li>
+          <li><strong>Decision Velocity:</strong> Capacity to make high-quality decisions with incomplete information</li>
+          <li><strong>Adaptive Authority:</strong> Flexibility in leadership style based on situational requirements</li>
+          <li><strong>Emotional Steadiness:</strong> Ability to maintain calm and focus during high-pressure periods</li>
+        </ol>
+        
+        <p>These capabilities distinguish exceptional recovery leaders and determine whether troubled projects can be successfully rescued.</p>
+        
+        <h3>Prevention: From Recovery to Resilience</h3>
+        
+        <p>While recovery skills remain essential, organizations should simultaneously focus on building project resilience to prevent future failures. Key resilience factors include:</p>
+        
+        <ul>
+          <li><strong>Reality-Based Planning:</strong> Planning approaches that acknowledge uncertainty and accommodate adaptation</li>
+          <li><strong>Early Warning Systems:</strong> Metrics and feedback mechanisms that surface issues before they become crises</li>
+          <li><strong>Psychological Safety:</strong> Team environments where problems can be identified without fear of punishment</li>
+          <li><strong>Decision Clarity:</strong> Well-defined decision rights and escalation paths for critical issues</li>
+          <li><strong>Stakeholder Integration:</strong> Continuous stakeholder engagement rather than periodic updates</li>
+        </ul>
+        
+        <p>Organizations that embed these resilience factors experience fewer project failures and recover more quickly when issues do arise.</p>
+        
+        <h3>Conclusion: The Recovery Opportunity</h3>
+        
+        <p>While troubled projects create significant organizational strain, they also offer rare opportunities for learning and growth. The most valuable insights often emerge from recovery scenarios rather than smooth implementations.</p>
+        
+        <p>By approaching project recovery systematically—moving from diagnosis through stabilization, redesign, and acceleration—organizations can not only rescue current initiatives but build capabilities that prevent future failures. In environments of increasing complexity and volatility, this recovery capacity becomes a crucial competitive advantage.</p>
+      `,
+      date: "March 15, 2025"
+    },
+    "efficiency-paradox": {
+      title: "The Efficiency Paradox: When Optimization Creates Underperformance",
+      content: `
+        <h2>The Hidden Dangers of Relentless Optimization</h2>
+        <p>Efficiency has become the unquestioned virtue of modern work. Organizations and individuals relentlessly pursue optimization, streamlining, and productivity enhancements. Yet beneath this seemingly rational approach lies a paradox: efficiency improvements sometimes create the very underperformance they aim to eliminate.</p>
+        
+        <p>This article explores when and why optimization becomes counterproductive and what to do instead to sustain meaningful productivity.</p>
+        
+        <h3>The Efficiency Trap</h3>
+        
+        <p>The basic premise of efficiency—doing more with less—seems unassailable. Who could argue against eliminating waste and maximizing output? Yet in complex systems, straightforward optimization often triggers counterintuitive consequences:</p>
+        
+        <h4>Four Efficiency Paradoxes:</h4>
+        
+        <ol>
+          <li><strong>The Innovation Paradox:</strong> Hyper-efficiency eliminates the slack necessary for experimentation and discovery</li>
+          <li><strong>The Resilience Paradox:</strong> Optimized systems lose the redundancy required to absorb disruption</li>
+          <li><strong>The Learning Paradox:</strong> Efficiency mindsets treat errors as waste rather than learning opportunities</li>
+          <li><strong>The Engagement Paradox:</strong> Over-optimized work reduces autonomy and meaning, diminishing motivation</li>
+        </ol>
+        
+        <p>These paradoxes explain why organizations and individuals that pursue efficiency above all else often achieve short-term gains at the expense of long-term performance.</p>
+        
+        <h3>The Innovation Paradox: When Slack Becomes Strategic</h3>
+        
+        <p>Innovation requires experimentation, and experimentation requires resources not devoted to immediate production. Yet efficiency initiatives typically identify and eliminate precisely this kind of "non-productive" capacity.</p>
+        
+        <p>Research from organizations like 3M, Google, and others demonstrates that innovation productivity depends on structured slack—time and resources explicitly protected from optimization. Without this space for exploration, systems become increasingly optimized for existing conditions rather than future possibilities.</p>
+        
+        <p>Strategic implications include:</p>
+        <ul>
+          <li>Protected time policies (e.g., Google's 20% time, 3M's 15% rule)</li>
+          <li>Resource buffers specifically designated for exploration</li>
+          <li>Metrics that value learning and discovery alongside production</li>
+        </ul>
+        
+        <h3>The Resilience Paradox: Redundancy as Insurance</h3>
+        
+        <p>Highly optimized systems eliminate redundancy in pursuit of efficiency. Yet this redundancy—whether in manufacturing capacity, staffing levels, or time buffers—provides crucial shock absorption when disruptions occur.</p>
+        
+        <p>The COVID-19 pandemic offered a stark example: organizations that had eliminated all supply chain redundancies in pursuit of efficiency faced catastrophic disruptions, while those that maintained strategic buffers adapted more successfully.</p>
+        
+        <p>Strategic implications include:</p>
+        <ul>
+          <li>Deliberate maintenance of capacity buffers in critical systems</li>
+          <li>Valuing adaptability alongside utilization in resource planning</li>
+          <li>Development of multiple operating modes for different environmental conditions</li>
+        </ul>
+        
+        <h3>The Learning Paradox: When Inefficiency Accelerates Growth</h3>
+        
+        <p>Learning is inherently inefficient in the short term. It requires exploration, mistakes, reflection, and iteration—all processes that optimization mindsets tend to eliminate as "waste."</p>
+        
+        <p>Organizations and individuals focused solely on efficiency metrics typically underinvest in learning, creating the illusion of productivity while undermining capability development. The result is declining performance over time despite increasing efficiency efforts.</p>
+        
+        <p>Strategic implications include:</p>
+        <ul>
+          <li>Learning budgets that explicitly account for efficiency "costs"</li>
+          <li>Evaluation systems that reward skill development alongside production</li>
+          <li>Work design that incorporates deliberate practice and reflection</li>
+        </ul>
+        
+        <h3>The Engagement Paradox: The Human Cost of Optimization</h3>
+        
+        <p>Human performance depends not just on process efficiency but on meaning, autonomy, and purpose. Yet optimization initiatives often standardize work to the point of removing these essential motivational elements.</p>
+        
+        <p>The engagement paradox explains why efficiency improvements sometimes yield short-term productivity gains followed by longer-term performance declines as motivation erodes.</p>
+        
+        <p>Strategic implications include:</p>
+        <ul>
+          <li>Balancing standardization with meaningful choice and autonomy</li>
+          <li>Connecting efficiency initiatives to purpose rather than just cost savings</li>
+          <li>Creating space for craftsmanship and excellence beyond mere throughput</li>
+        </ul>
+        
+        <h3>Beyond Efficiency: The Effectiveness Paradigm</h3>
+        
+        <p>Rather than abandoning improvement efforts entirely, organizations and individuals need a more nuanced approach that distinguishes between efficiency (doing things with minimal waste) and effectiveness (doing the right things well).</p>
+        
+        <p>The effectiveness paradigm focuses on maximizing impact rather than minimizing inputs, and includes several key principles:</p>
+        
+        <h4>1. Value-Based Optimization</h4>
+        <p>Rather than optimizing for resource minimization, focus on optimizing for value creation. This approach recognizes that some "inefficiencies" actually generate disproportionate value and should be protected rather than eliminated.</p>
+        
+        <h4>2. Optimization Boundaries</h4>
+        <p>Explicitly define where optimization applies and where it doesn't. Some activities (e.g., routine production) benefit from efficiency focus, while others (e.g., innovation, relationship building) may be harmed by it.</p>
+        
+        <h4>3. Dynamic Resource Allocation</h4>
+        <p>Rather than static optimization, implement systems that dynamically adjust resource allocation based on changing conditions and opportunities. This creates built-in adaptability without sacrificing performance.</p>
+        
+        <h4>4. Productivity Measurements That Matter</h4>
+        <p>Replace narrow efficiency metrics with broader indicators of meaningful productivity, including leading indicators of future capability alongside current performance measures.</p>
+        
+        <h3>The Personal Efficiency Paradox</h3>
+        
+        <p>While much efficiency literature focuses on organizational systems, individuals face the same paradoxes in personal productivity. The knowledge worker who optimizes every minute often experiences declining creative output, reduced learning, and eventual burnout.</p>
+        
+        <p>More effective approaches include:</p>
+        <ul>
+          <li>Alternating between focused efficiency and exploratory modes</li>
+          <li>Maintaining recovery and reflection periods despite productivity pressure</li>
+          <li>Optimizing for energy management rather than just time management</li>
+          <li>Creating space for deep work rather than maximizing task completion</li>
+        </ul>
+        
+        <h3>Conclusion: The Strategic Choice</h3>
+        
+        <p>Efficiency remains valuable, but its pursuit must be bounded by strategic awareness of when optimization helps versus when it harms. The key questions become not "How can we maximize efficiency?" but rather:</p>
+        
+        <ul>
+          <li>Where specifically should we prioritize efficiency?</li>
+          <li>Where should we deliberately maintain slack for innovation and resilience?</li>
+          <li>How do we balance standardization with the autonomy that drives engagement?</li>
+          <li>What forms of "inefficiency" actually drive our long-term performance?</li>
+        </ul>
+        
+        <p>By moving beyond the efficiency paradigm toward strategic effectiveness, organizations and individuals can avoid the paradoxical underperformance that often accompanies relentless optimization. In an age of disruption and complexity, this nuanced approach may be the most important productivity enhancement of all.</p>
+      `,
+      date: "February 27, 2025"
+    }
+  };
+
+  useEffect(() => {
+    if (slug && blogPosts[slug as keyof typeof blogPosts]) {
+      setPost(blogPosts[slug as keyof typeof blogPosts]);
+    }
+  }, [slug]);
 
   if (!post) {
-    return <Navigate to="/blog" />;
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-playfair mb-4">Blog Post Not Found</h1>
+          <Link to="/blog" className="inline-flex items-center group">
+            <ArrowLeft size={18} className="mr-2 group-hover:-translate-x-2 transition-transform duration-300" />
+            <span className="border-b border-black pb-1 group-hover:mr-2 transition-all duration-300">
+              Return to Blog
+            </span>
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <section className="section pb-0">
-        <div className="container">
-          <div className="max-w-3xl mx-auto">
-            <span className="text-xs text-gray-500 uppercase tracking-wider">{post.date}</span>
-            <h1 className="font-playfair mt-2 mb-6">{post.title}</h1>
-          </div>
-        </div>
-      </section>
-
-      <section className="section pt-12">
-        <div className="container">
-          <div className="max-w-3xl mx-auto">
-            <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
+    <div className="section">
+      <div className="container">
+        <div className="max-w-3xl mx-auto">
+          <div className="mb-12">
+            <Link to="/blog" className="inline-flex items-center group mb-8 block">
+              <ArrowLeft size={18} className="mr-2 group-hover:-translate-x-2 transition-transform duration-300" />
+              <span className="border-b border-black pb-1 group-hover:mr-2 transition-all duration-300">
+                Back to Blog
+              </span>
+            </Link>
             
-            <div className="mt-16 pt-8 border-t border-gray-200">
-              <Link to="/blog" className="flex items-center group">
-                <ArrowLeft size={18} className="mr-2 group-hover:-translate-x-2 transition-transform duration-300" />
-                <span className="border-b border-black pb-1 group-hover:mr-2 transition-all duration-300">
-                  Back to all articles
-                </span>
-              </Link>
-            </div>
+            <span className="text-xs text-gray-500 uppercase tracking-wider">{post.date}</span>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-playfair mt-4 mb-6">{post.title}</h1>
           </div>
+          
+          <div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: post.content }} />
         </div>
-      </section>
+      </div>
     </div>
   );
 };
